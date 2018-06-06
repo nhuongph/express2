@@ -1,80 +1,29 @@
 import HTTPStatus from 'http-status';
 import Response from '../../helpers/Response';
 import { DirectionRepository } from '../../repositories';
-import models from '../../models';
 
 let directionRepository = new DirectionRepository();
 
-class DirectionController{
+class DirectionController {
 
-  index = async (req, res) => {
-    try {
-      let posts = await postRepository.find();
-      return Response.success(res, posts);
+    index = async (req, res) => {
+        try {
+            let directions = await directionRepository.find();
+            return Response.success(res, directions);
 
-    } catch (e) {
-      return Response.error(res, e.message, HTTPStatus.BAD_REQUEST);
-    }
-  }
-
-  create = async (req, res) => {
-    try {
-      let body = req.body;
-      let post = await postRepository.create(body);
-      return Response.success(res, post);
-    } catch (e) {
-      return Response.error(res, e.message, HTTPStatus.BAD_REQUEST);
-    }
-  }
-
-  view = async (req, res) => {
-    try {
-      let postId = req.param('id');
-      let post = await postRepository.findOne(
-        {
-          where: {id: postId},
-          // include: [
-          //     {model: models.User,
-          //     as: 'user'}
-          // ]
+        } catch (e) {
+            return Response.error(res, e.message, HTTPStatus.BAD_REQUEST);
         }
-      );
-      console.log(post);
-      return Response.success(res, post);
-    } catch (e) {
-      return Response.error(res, e.message, HTTPStatus.BAD_REQUEST);
     }
-  }
 
-  update = async (req, res) => {
-    try {
-      let postId = req.param('id');
-      let body = req.body;
-      let post = await postRepository.update(postId, body);
-      return res
-        .status(HTTPStatus.OK)
-        .send(Response.returnSuccess(post));
-    } catch (e) {
-      return res
-        .status(HTTPStatus.BAD_REQUEST)
-        .send(Response.returnError(e.message, HTTPStatus.BAD_REQUEST));
+    uploads = async (req, res) => {
+        try {
+            let data = await directionRepository.uploads(req);
+            return Response.success(res, data, 'Upload success.');
+        } catch (e) {
+            return Response.error(res, e.message, HTTPStatus.BAD_REQUEST);
+        }
     }
-  }
-
-  delete = async (req, res) => {
-    try {
-      let postId = req.param('id');
-      let post = await postRepository.delete(postId);
-      return res
-        .status(HTTPStatus.OK)
-        .send(Response.returnSuccess(post));
-    } catch (e) {
-      return res
-        .status(HTTPStatus.BAD_REQUEST)
-        .send(Response.returnError(e.message, HTTPStatus.BAD_REQUEST));
-    }
-  }
-
 }
 
-export default new PostController();
+export default new DirectionController();

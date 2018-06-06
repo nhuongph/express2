@@ -2,8 +2,8 @@
   "development": {
     "username": "postgres",
     "password": "none",
-    "database": "express2",
-    "host": "postgres",
+    "database": "expres2",
+    "host": "localhost",
     "dialect": "postgres"
   },
   "test": {

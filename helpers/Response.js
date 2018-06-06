@@ -3,11 +3,13 @@ import {env} from '../config/index';
 
 export default class Response {
 
-  static success(res, data = null) {
+  static success(res, data = null, status = HTTPStatus.OK, message = '') {
     if (data) {
       return res
         .status(HTTPStatus.OK)
         .send({
+          status: status,
+          message: message,
           data: data,
         });
     }
@@ -28,8 +30,8 @@ export default class Response {
       .status(code)
       .send({
         error: {
+          status: code,
           message: error.message,
-          code: code,
         },
       });
   }
