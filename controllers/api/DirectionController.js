@@ -14,7 +14,7 @@ class DirectionController {
         } catch (e) {
             return Response.error(res, e.message, HTTPStatus.BAD_REQUEST);
         }
-    }
+    };
 
     uploads = async (req, res) => {
         try {
@@ -23,7 +23,7 @@ class DirectionController {
         } catch (e) {
             return Response.error(res, e.message, HTTPStatus.BAD_REQUEST);
         }
-    }
+    };
 }
 
 export default new DirectionController();

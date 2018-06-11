@@ -4,17 +4,12 @@ import XLSX from 'xlsx';
 
 const PATH = "public/uploads/";
 
-import Express from 'express';
-import FileUpload from 'express-fileupload';
-const app = Express();
-app.use(FileUpload());
-
 export default class DirectionRepository extends BaseRepository {
     constructor() {
         super('Directions');
     }
 
-    uploads(req) {
+    uploads = (req) => {
         if (!req.files || !req.files.direction_file)
             throw Error('No files were uploaded.');
 
@@ -24,9 +19,9 @@ export default class DirectionRepository extends BaseRepository {
         let data = this.getFileData(filePath);
 
         this.create(this.updateInsertData(data));
-    }
+    };
 
-    moveFile(directionFile) {
+    moveFile = (directionFile) => {
         let newFileName = Uuidv4 + "." + directionFile.ext;
         let newPath = PATH + newFileName;
 
@@ -35,23 +30,23 @@ export default class DirectionRepository extends BaseRepository {
         });
 
         return newPath;
-    }
+    };
 
-    getFileData(filePath) {
+    getFileData = (filePath) => {
         let workbook = XLSX.readFile(filePath);
         let sheetNameList = workbook.SheetNames;
         let sheet3 = workbook.Sheets[sheetNameList[2]];
         let data = XLSX.utils.sheet_to_json(sheet3, {header: 1, range: 1});
 
         return data;
-    }
+    };
 
-    updateInsertData(data) {
+    updateInsertData = (data) => {
         data.forEach((val) => {
             val.createdAt = new Date();
             val.updatedAt = new Date();
         });
 
         return data;
-    }
+    };
 }
