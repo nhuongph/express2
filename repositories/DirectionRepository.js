@@ -1,6 +1,7 @@
 import BaseRepository from './BaseRepository';
 import Uuidv4 from "uuid/v4";
 import XLSX from 'xlsx';
+import Path from 'path';
 
 const PATH = "public/uploads/";
 
@@ -22,7 +23,7 @@ export default class DirectionRepository extends BaseRepository {
     };
 
     moveFile = (directionFile) => {
-        let newFileName = Uuidv4 + "." + directionFile.ext;
+        let newFileName = Uuidv4() + Path.extname(directionFile.name);
         let newPath = PATH + newFileName;
 
         directionFile.mv(newPath, function(err) {
@@ -34,6 +35,7 @@ export default class DirectionRepository extends BaseRepository {
 
     getFileData = (filePath) => {
         let workbook = XLSX.readFile(filePath);
+        console.log(workbook);
         let sheetNameList = workbook.SheetNames;
         let sheet3 = workbook.Sheets[sheetNameList[2]];
         let data = XLSX.utils.sheet_to_json(sheet3, {header: 1, range: 1});
